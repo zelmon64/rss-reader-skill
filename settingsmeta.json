@@ -14,14 +14,14 @@
                         "name": "nameone",
                         "type": "text",
                         "label": "First feed - Name",
-                        "value": "",
+                        "value": "Mycroft blog",
                         "placeholder": "Word to trigger the first feed"
                     },
                     {
                         "name": "urlone",
                         "type": "text",
                         "label": "First feed - URL",
-                        "value": "",
+                        "value": "https://mycroft.ai/feed/",
                         "placeholder": "URL of the first feed"
                     },
                     {

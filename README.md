@@ -53,7 +53,7 @@ Contributions are welcome.
 
 2. _The skill doesn’t work as it should._
 
-   Please, feel free to open an _issue_ on GitHub. If this might be helpful, the skill logs warnings and errors in the Mycroft CLI. You can use a filter to highlight the relevant information by typing `:find 'skill-rss-reader'`
+   Please, feel free to open an _issue_ on GitHub. If this might be helpful, the skill logs warnings and errors in the Mycroft CLI. You can use a filter to highlight the relevant information by typing `:find 'rss-reader'`
 
 ## Thanks
 [JamesPoole](https://github.com/JamesPoole/) from whose [podcast-skill](https://github.com/JamesPoole/podcast-skill) brilliant skill I inherited many ideas. 
