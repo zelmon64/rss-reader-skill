@@ -1,0 +1,5 @@
+{
+    "expected_dialog": "feed.read",
+    "intent_type": "read.feeds.intent",
+    "utterance": "read my new feeds"
+}

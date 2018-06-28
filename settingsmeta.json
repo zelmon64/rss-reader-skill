@@ -1,37 +1,56 @@
 {
-    "name": "Rss reader",
+    "name": "RSS feed reader",
+    "color": "#FF9F00",
     "skillMetadata": {
         "sections": [
             {
-                "name": "Options << Name of section",
-                "fields": [
-                    {
-                        "name": "internal_python_variable_name",
-                        "type": "text",
-                        "label": "Setting Friendly Display Name",
-                        "value": "",
-                        "placeholder": "demo prompt in the input box"
-                    }
-                ]
-            },
-            {
-                "name": "Login << Name of another section",
+                "name": "Your RSS feeds",
                 "fields": [
                     {
                         "type": "label",
-                        "label": "Just a little bit of extra info for the user to understand following settings"
+                        "label": "Write the names and the URLs of your feeds"
                     },
                     {
-                        "name": "username",
+                        "name": "nameone",
                         "type": "text",
-                        "label": "Username",
-                        "value": ""
+                        "label": "First feed - Name",
+                        "value": "",
+                        "placeholder": "Word to trigger the first feed"
                     },
                     {
-                        "name": "password",
-                        "type": "password",
-                        "label": "Password",
-                        "value": ""
+                        "name": "urlone",
+                        "type": "text",
+                        "label": "First feed - URL",
+                        "value": "",
+                        "placeholder": "URL of the first feed"
+                    },
+                    {
+                        "name": "nametwo",
+                        "type": "text",
+                        "label": "Second feed - Name",
+                        "value": "",
+                        "placeholder": "Word to trigger the second feed"
+                    },
+                    {
+                        "name": "urltwo",
+                        "type": "text",
+                        "label": "Second feed URL",
+                        "value": "",
+                        "placeholder": "URL of the second feed"
+                    },
+                    {
+                        "name": "namethree",
+                        "type": "text",
+                        "label": "Third feed - Name",
+                        "value": "",
+                        "placeholder": "Word to trigger the third feed"
+                    },
+                    {
+                        "name": "urlthree",
+                        "type": "text",
+                        "label": "Third feed - URL",
+                        "value": "",
+                        "placeholder": "URL of the third feed"
                     }
                 ]
             }

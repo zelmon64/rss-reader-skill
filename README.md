@@ -4,7 +4,10 @@ A simple rss reader skill for mycroft.
 ## Description
 This skill is a simple tool to get updates from your favourite news source.
 
-the main features are: manage your feed subscriptions from your https://home.mycroft.ai/ dashboard, ask mycroft to check if new artciles have been published, and ask mycroft to reatitles for you.
+the main features are: 
+* manage your feed subscriptions from your https://home.mycroft.ai/ dashboard, 
+* ask mycroft to check if new artciles have been published, 
+* ask mycroft to reatitles for you.
 
 ## Examples
  - "Check for new feeds"
@@ -12,6 +15,48 @@ the main features are: manage your feed subscriptions from your https://home.myc
  - "Read my new feeds"
  - "Read my new feeds from mycroft blog"
 
+## Commands (en-us)
+* `repeat` repeats the title of the article
+* `author` gets information about the author
+* `summary` gets Mycroft to read the summary
+* `email` emails to your INBOX a link to the article
+* `next` reads the next article
+* `synchronize` marks all the articles as _read_
+* `stop` stops the skill execution
+
+## Room for improvements
+Contributions are welcome.
+
+1. _read_feeds() method clean-up_
+
+   The read_feeds() code needs a little clean up.
+   I would like to leave all the object iteration logic in this function, and delegate single tasks to specialized class method.
+
+2. _Work on the vocabulary_
+
+   The vocabulary can be extended to improve user experience.
+    
+3. _Make feeds data persistent_
+
+   Every time a new intent is registered, the skill makes new http requests to retrive feed data. 
+   I would like to optimize resources by making the feeds data persistent (in ram) for a reasonable amount of time.
+   
+4. _Add translations_   
+
+   The skill currently works for English speaking users.
+   This skill is designed to be as language independent as possible, by not hard-coding any English-centric structures and using tools such as Mycroft's translate_namedvalues().
+     
+## FAQ
+1. _The emails I get from skill-rss-reader have some tracking code in the article URL._
+
+   This can’t be avoided. Links are fetched _clean_ from your feeds, but the Mycroft method send_email() adds to them. Please, refear to Mycroft privacy policy for further information.
+
+2. _The skill doesn’t work as it should._
+
+   Please, feel free to open an _issue_ on github. If this might be helpful, the skill logs warnings and errors in the Mycroft CLI. You can use a filter to highlight the relevant information by typing `:find 'skill-rss-reader'`
+
+## Thanks
+[JamesPoole](https://github.com/JamesPoole/) from whose [podcast-skill](https://github.com/JamesPoole/podcast-skill) brilliant skill I inherited many ideas. 
 
 ## Credits
 backassward

@@ -1,0 +1,5 @@
+{
+    "expected_dialog": "feed.count",
+    "intent_type": "check.feeds.intent",
+    "utterance": "check for new feeds"
+}
