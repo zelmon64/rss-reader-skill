@@ -26,6 +26,8 @@ from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_file_handler
 from mycroft.util.log import LOG
 from mycroft.audio import wait_while_speaking
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
 
 
 class Database():
@@ -53,6 +55,7 @@ class Article():
     def __init__(self, entry):
         self.title = entry.title
         self.summary = self._html_cleanup(entry.summary)
+        self.content = self._html_cleanup(getattr(entry, 'content', 'Not available'))
         self.author = getattr(entry, 'author', 'Not available')
         self.link = entry.link
         self.date = entry.published_parsed
@@ -225,6 +228,24 @@ class RssReader(MycroftSkill):
 
     def summary(self, feed, article):
         self.speak(article.get_instance('summary'))
+
+    def content(self, feed, article):
+        if article.get_instance('content') != 'Not available':
+            self.speak(article.get_instance('content'))
+        else:
+            url = urlopen(article.get_instance('link'))
+            content = url.read()
+            soup = BeautifulSoup(content)
+            body = soup.find('div', 'StandardArticleBody_body')
+            paragraphs = ''
+            for paragraph in body.findAll('p'):
+                # LOG.debug(paragraph.text)
+                # print(paragraph.text)
+                paragraphs += paragraph.text
+                # self.speak(paragraph.text)
+                # wait_while_speaking()
+            self.speak(paragraphs)
+            wait_while_speaking()
 
     def sync(self, feed, article):
         feed.update_last_access(localtime())
