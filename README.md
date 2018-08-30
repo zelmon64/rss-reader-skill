@@ -19,6 +19,7 @@ the main features are:
 * `repeat` repeats the title of the article
 * `author` gets information about the author
 * `summary` gets Mycroft to read the summary
+* `content` gets Mycroft to read the ful content
 * `email` emails to your INBOX a link to the article
 * `next` reads the next article
 * `synchronize` marks all the articles as _read_
