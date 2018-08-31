@@ -19,11 +19,16 @@ the main features are:
 * `repeat` repeats the title of the article
 * `author` gets information about the author
 * `summary` gets Mycroft to read the summary
-* `content` gets Mycroft to read the ful content
+* `content` gets Mycroft to read the full article content in sections of four paragraphs
 * `email` emails to your INBOX a link to the article
 * `next` reads the next article
 * `synchronize` marks all the articles as _read_
 * `stop` stops the skill execution
+
+### Commands while reading an article (en-us)
+* `repeat` repeats the last spoken section
+* `stop` or 'no' stops reading the current article
+* no response or any other response will read the next section of the current article
 
 ## Room for improvements
 Contributions are welcome.

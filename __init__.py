@@ -56,6 +56,7 @@ class Article():
         self.title = entry.title
         self.summary = self._html_cleanup(entry.summary)
         self.content = self._html_cleanup(getattr(entry, 'content', 'Not available'))
+        self.paragraphs = ''
         self.author = getattr(entry, 'author', 'Not available')
         self.link = entry.link
         self.date = entry.published_parsed
@@ -224,12 +225,19 @@ class RssReader(MycroftSkill):
         self.speak(article.get_instance('author'))
 
     def repeat(self, feed, article):
-        self.speak(article.get_instance('title'))
+        if not article.get_instance('paragraphs'):
+            self.speak(article.get_instance('title'))
+        else:
+            self.speak_dialog('content.repeat')
+            self.speak(article.get_instance('paragraphs'))
 
     def summary(self, feed, article):
         self.speak(article.get_instance('summary'))
 
     def content(self, feed, article):
+        self.speak_dialog('content.read')
+        mchoice = self.translate_namedvalues('content.options', delim=',')
+        # options = {choice[key]:key for key in choice}
         if article.get_instance('content') != 'Not available':
             self.speak(article.get_instance('content'))
         else:
@@ -238,14 +246,34 @@ class RssReader(MycroftSkill):
             soup = BeautifulSoup(content)
             body = soup.find('div', 'StandardArticleBody_body')
             paragraphs = ''
+            pcount = 0
             for paragraph in body.findAll('p'):
+                pcount += 1
                 # LOG.debug(paragraph.text)
+                # LOG.debug('pcount: ' + str(pcount))
                 # print(paragraph.text)
                 paragraphs += paragraph.text
-                # self.speak(paragraph.text)
-                # wait_while_speaking()
-            self.speak(paragraphs)
-            wait_while_speaking()
+                if pcount > 3:
+                    while True:
+                        wait_while_speaking()
+                        self.speak(paragraphs)
+                        wait_while_speaking()
+                        mutter = self.get_response('content.prompt',
+                                              num_retries=0)
+                        if (not mutter) or not (mchoice['repeat'] in mutter):
+                            break
+                        else:
+                            self.speak_dialog('content.repeat')
+                    paragraphs = ''
+                    pcount = 0
+                    if not mutter or not ((mchoice['no'] in mutter) or (mchoice['stop'] in mutter)):
+                            self.speak_dialog('content.continue')
+                    else:
+                            break
+            if pcount > 0:
+                article.paragraphs = paragraphs
+                wait_while_speaking()
+                self.speak(paragraphs)
 
     def sync(self, feed, article):
         feed.update_last_access(localtime())
