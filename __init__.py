@@ -235,9 +235,9 @@ class RssReader(MycroftSkill):
         self.speak(article.get_instance('summary'))
 
     def content(self, feed, article):
-        self.speak_dialog('content.read')
+        # self.speak_dialog('content.read')
         mchoice = self.translate_namedvalues('content.options', delim=',')
-        # options = {choice[key]:key for key in choice}
+        moptions = {mchoice[key]:key for key in mchoice}
         if article.get_instance('content') != 'Not available':
             self.speak(article.get_instance('content'))
         else:
@@ -247,29 +247,43 @@ class RssReader(MycroftSkill):
             body = soup.find('div', 'StandardArticleBody_body')
             paragraphs = ''
             pcount = 0
-            for paragraph in body.findAll('p'):
+            icount = 0
+            body_all_p = body.findAll('p')
+            body_length = len(body_all_p)
+            for index, paragraph in enumerate(body_all_p):
                 pcount += 1
                 # LOG.debug(paragraph.text)
                 # LOG.debug('pcount: ' + str(pcount))
                 # print(paragraph.text)
                 paragraphs += paragraph.text
-                if pcount > 3:
+                if (pcount > 3) and (index < body_length - 3):
                     while True:
                         wait_while_speaking()
-                        self.speak(paragraphs)
-                        wait_while_speaking()
-                        mutter = self.get_response('content.prompt',
-                                              num_retries=0)
-                        if (not mutter) or not (mchoice['repeat'] in mutter):
+                        if icount == 0:
+                            self.speak(paragraphs)
+                            wait_while_speaking()
+                        mutter = self.get_response('content.prompt', num_retries=0)
+                        if (not mutter):
+                            icount = 0
                             break
-                        else:
+                        elif (mchoice['repeat'] in mutter):
                             self.speak_dialog('content.repeat')
+                            icount = 0
+                        else:
+                            if (mutter in moptions) or (icount > 2):
+                                icount = 0
+                                if icount > 2:
+                                    self.speak_dialog('content.continue')
+                                break
+                            else:
+                                self.speak_dialog('choice.error')
+                                icount += 1
                     paragraphs = ''
                     pcount = 0
-                    if not mutter or not ((mchoice['no'] in mutter) or (mchoice['stop'] in mutter)):
-                            self.speak_dialog('content.continue')
-                    else:
+                    if mutter and ((mchoice['no'] in mutter) or (mchoice['stop'] in mutter)):
                             break
+                    # else:
+                    #         self.speak_dialog('content.continue')
             if pcount > 0:
                 article.paragraphs = paragraphs
                 wait_while_speaking()
